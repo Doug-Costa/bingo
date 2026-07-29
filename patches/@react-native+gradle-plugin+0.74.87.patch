@@ -1,0 +1,57 @@
+diff --git a/node_modules/@react-native/gradle-plugin/.gradle/buildOutputCleanup/buildOutputCleanup.lock b/node_modules/@react-native/gradle-plugin/.gradle/buildOutputCleanup/buildOutputCleanup.lock
+new file mode 100644
+index 0000000..bc67ffa
+Binary files /dev/null and b/node_modules/@react-native/gradle-plugin/.gradle/buildOutputCleanup/buildOutputCleanup.lock differ
+diff --git a/node_modules/@react-native/gradle-plugin/.gradle/buildOutputCleanup/cache.properties b/node_modules/@react-native/gradle-plugin/.gradle/buildOutputCleanup/cache.properties
+new file mode 100644
+index 0000000..06fa839
+--- /dev/null
++++ b/node_modules/@react-native/gradle-plugin/.gradle/buildOutputCleanup/cache.properties
+@@ -0,0 +1,2 @@
++#Wed Mar 18 18:22:26 BRT 2026
++gradle.version=8.10
+diff --git a/node_modules/@react-native/gradle-plugin/react-native-gradle-plugin/build.gradle.kts b/node_modules/@react-native/gradle-plugin/react-native-gradle-plugin/build.gradle.kts
+index 6e09a3e..44cfcd5 100644
+--- a/node_modules/@react-native/gradle-plugin/react-native-gradle-plugin/build.gradle.kts
++++ b/node_modules/@react-native/gradle-plugin/react-native-gradle-plugin/build.gradle.kts
+@@ -7,7 +7,6 @@
+ 
+ import org.gradle.api.internal.classpath.ModuleRegistry
+ import org.gradle.api.tasks.testing.logging.TestExceptionFormat
+-import org.gradle.configurationcache.extensions.serviceOf
+ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+ 
+ plugins {
+@@ -49,13 +48,12 @@ dependencies {
+ 
+   testImplementation(libs.junit)
+ 
+-  testRuntimeOnly(
+-      files(
+-          serviceOf<ModuleRegistry>()
+-              .getModule("gradle-tooling-api-builders")
+-              .classpath
+-              .asFiles
+-              .first()))
++//  testRuntimeOnly(
++//      files(
++//              .getModule("gradle-tooling-api-builders")
++//              .classpath
++//              .asFiles
++//              .first()))
+ }
+ 
+ // We intentionally don't build for Java 17 as users will see a cryptic bytecode version
+diff --git a/node_modules/@react-native/gradle-plugin/react-native-gradle-plugin/src/main/kotlin/com/facebook/react/ReactPlugin.kt b/node_modules/@react-native/gradle-plugin/react-native-gradle-plugin/src/main/kotlin/com/facebook/react/ReactPlugin.kt
+index 2c5bea4..67a396a 100644
+--- a/node_modules/@react-native/gradle-plugin/react-native-gradle-plugin/src/main/kotlin/com/facebook/react/ReactPlugin.kt
++++ b/node_modules/@react-native/gradle-plugin/react-native-gradle-plugin/src/main/kotlin/com/facebook/react/ReactPlugin.kt
+@@ -90,7 +90,7 @@ class ReactPlugin : Plugin<Project> {
+   }
+ 
+   private fun checkJvmVersion(project: Project) {
+-    val jvmVersion = Jvm.current()?.javaVersion?.majorVersion
++    val jvmVersion = Jvm.current().javaVersion?.majorVersion
+     if ((jvmVersion?.toIntOrNull() ?: 0) <= 16) {
+       project.logger.error(
+           """

@@ -1,27 +1,4 @@
 {
-  "expo": {
-    "name": "Bingo Luz - TV",
-    "slug": "bingo-luz-tv",
-    "version": "1.0.0",
-    "orientation": "landscape",
-    "icon": "./assets/icon.png",
-    "userInterfaceStyle": "dark",
-    "splash": {
-      "image": "./assets/splash.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#121214"
-    },
-    "ios": {
-      "supportsTablet": true
-    },
-    "android": {
-      "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#121214"
-      }
-    },
-    "web": {
-      "favicon": "./assets/favicon.png"
-    }
-  }
+  "name": "tvapp1",
+  "displayName": "tvapp1"
 }

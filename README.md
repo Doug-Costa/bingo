@@ -1,32 +1,104 @@
-# React + TypeScript + Vite
+# Terminal 1
+cd /media/marcos/hd5001/react-native/loto1
+export ELECTRON_DISABLE_SANDBOX=1
+npx react-native start --reset-cache
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+# Terminal 2 (uma vez para instalar)
+cd /media/marcos/hd5001/react-native/loto1
+export ELECTRON_DISABLE_SANDBOX=1
+npx react-native run-android
 
-Currently, two official plugins are available:
+# Depois de instalado, só editar e salvar - Metro recarrega sozinho!
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
 
-## React Compiler
+# Gerar APK release
+cd /media/marcos/hd5001/react-native/loto1/android
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+cd android
+./gradlew --stop
+cd ..
+rm -rf android/.gradle
+rm -rf ~/.gradle/caches
+rm -rf ~/.gradle/daemon
+rm -rf ~/.gradle/wrapper
+rm -rf node_modules
+npm install --legacy-peer-deps
+cd android
+./gradlew clean
+cd ..
+npx react-native run-android
 
-## Expanding the Oxlint configuration
 
-If you are developing a production application, we recommend enabling type-aware lint rules by installing `oxlint-tsgolint` and editing `.oxlintrc.json`:
+./gradlew assembleRelease
 
-```json
-{
-  "$schema": "./node_modules/oxlint/configuration_schema.json",
-  "plugins": ["react", "typescript", "oxc"],
-  "options": {
-    "typeAware": true
-  },
-  "rules": {
-    "react/rules-of-hooks": "error",
-    "react/only-export-components": ["warn", { "allowConstantExport": true }]
-  }
-}
-```
+# O APK estará em:
+ls -la app/build/outputs/apk/release/
 
-See the [Oxlint rules documentation](https://oxc.rs/docs/guide/usage/linter/rules) for the full list of rules and categories.
+
+# Instalar APK via USB
+adb install android/app/build/outputs/apk/release/app-release.apk
+
+# OU copiar para o celular e instalar manualmente
+
+O export ELECTRON_DISABLE_SANDBOX=1 é só para desenvolvimento
+
+Para gerar APK release, não precisa dessa variável
+
+
+
+export JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64
+export PATH=$JAVA_HOME/bin:$PATH
+
+java -version
+javac -version
+echo $JAVA_HOME
+
+echo 'export JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64' >> ~/.bashrc
+echo 'export PATH=$JAVA_HOME/bin:$PATH' >> ~/.bashrc
+source ~/.bashrc
+
+
+cd /caminho/do/projeto
+
+nvm use 20
+
+sed -i 's/gradle-9.0.0-bin.zip/gradle-8.10-bin.zip/g' android/gradle/wrapper/gradle-wrapper.properties
+
+
+
+
+sed -i 's/Jvm.current()?.javaVersion?.majorVersion/Jvm.current().javaVersion?.majorVersion/g' \
+node_modules/@react-native/gradle-plugin/react-native-gradle-plugin/src/main/kotlin/com/facebook/react/ReactPlugin.kt
+
+sed -i '/org.gradle.configurationcache.extensions.serviceOf/d' \
+node_modules/@react-native/gradle-plugin/react-native-gradle-plugin/build.gradle.kts
+
+sed -i '/serviceOf<ModuleRegistry>()/d' \
+node_modules/@react-native/gradle-plugin/react-native-gradle-plugin/build.gradle.kts
+
+cd android
+./gradlew --stop
+cd ..
+
+rm -rf android/.gradle
+rm -rf ~/.gradle/caches
+rm -rf ~/.gradle/daemon
+rm -rf ~/.gradle/wrapper
+rm -rf node_modules
+
+npm install --legacy-peer-deps
+
+cd android
+./gradlew clean
+./gradlew assembleRelease --stacktrace
+
+
+
+sed -i 's/Jvm.current()?.javaVersion?.majorVersion/Jvm.current().javaVersion?.majorVersion/g' \
+node_modules/@react-native/gradle-plugin/react-native-gradle-plugin/src/main/kotlin/com/facebook/react/ReactPlugin.kt
+
+sed -i '/org.gradle.configurationcache.extensions.serviceOf/d' \
+node_modules/@react-native/gradle-plugin/react-native-gradle-plugin/build.gradle.kts
+
+sed -i '/serviceOf<ModuleRegistry>()/d' \
+node_modules/@react-native/gradle-plugin/react-native-gradle-plugin/build.gradle.kts
